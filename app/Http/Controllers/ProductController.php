@@ -6,14 +6,17 @@ use Inertia\Inertia;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Repositories\All\Products\ProductInterface;
+use App\Repositories\All\Categories\CategoryInterface;
 class ProductController extends Controller
 
 {
     protected $ProductInterface;
+    protected $CategoryInterface;
 
-    public function __construct(ProductInterface $ProductInterface)
+    public function __construct(ProductInterface $ProductInterface, CategoryInterface $CategoryInterface)
     {
         $this->ProductInterface = $ProductInterface;
+        $this->CategoryInterface = app(CategoryInterface::class);
     }
 
     /**
@@ -27,7 +30,10 @@ class ProductController extends Controller
     }
     public function create()
     {
-    return Inertia::render('Products/Create');
+    $CategoryInterface = app(CategoryInterface::class);
+    $categories = $this->CategoryInterface->all();
+
+    return Inertia::render('Products/Create', ['categories' => $categories]);
     }
     /**
      * Store a newly created resource in storage.

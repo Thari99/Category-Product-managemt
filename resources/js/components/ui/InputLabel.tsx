@@ -1,6 +1,6 @@
 import { LabelHTMLAttributes } from 'react';
 
-export default function InputLabel({
+export default function Label({
     value,
     className = '',
     children,
@@ -18,3 +18,4 @@ export default function InputLabel({
         </label>
     );
 }
+export { Label }

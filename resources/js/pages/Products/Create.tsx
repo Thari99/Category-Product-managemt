@@ -17,7 +17,17 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-export default function Create() {
+interface Category {
+    id: number;
+    title: string;
+    description: string;
+}
+
+interface Props {
+    categories: Category[];
+}
+
+export default function Create({ categories }: Props) {
     const { data, setData, post, processing, errors, reset } = useForm({
         title: "",
         introduction: "",
@@ -42,6 +52,8 @@ export default function Create() {
             forceFormData: true,
         });
     };
+
+    console.log (categories);
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard" />
@@ -141,23 +153,26 @@ export default function Create() {
                             <div>
                                 <InputLabel
                                     htmlFor="category_id"
-                                    value="Category id"
+                                    value="Category"
                                 />
 
-                                <TextInput
+                                <select
                                     id="category_id"
-                                    type="int"
                                     name="category_id"
                                     value={data.category_id}
-                                    className="mt-1 block w-full"
-                                    isFocused={true}
-                                    onChange={(e : any) =>
-                                        setData("category_id", e.target.value)
-                                    }
-                                />
+                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                    onChange={(e) => setData("category_id", e.target.value)}
+                                >
+                                    <option value="">Select a category</option>
+                                    {categories.map((category) => (
+                                        <option key={category.id} value={category.id}>
+                                            {category.title}
+                                        </option>
+                                    ))}
+                                </select>
 
                                 <InputError
-                                    message={errors.image}
+                                    message={errors.category_id}
                                     className="mt-2"
                                 />
                             </div>
